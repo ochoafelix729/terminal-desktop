@@ -11,6 +11,11 @@ This project shall be called Terminal Copilot. It shall provide an easier experi
 - In your project directory in your terminal, type: ```python3 -m venv venv```
 - Now, activate the virtual environment by typing: ```source venv/bin/activate```
 
+## Git Reference
+
+- Delete remote branche after merging and deleting - ```git remote prune origin```
+- Delete local branch - ```git branch -d <branch-name>```
+
 ## Tech Stack
 
 - Frontend - React + Electron
