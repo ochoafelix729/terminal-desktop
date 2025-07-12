@@ -3,6 +3,7 @@
 requirements.txt
 venv/
 backend/__pycache__/
+appsettings.json
 
 # ==== FRONTEND .gitignore ====
 
