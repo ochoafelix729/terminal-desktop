@@ -23,4 +23,4 @@ This project shall be called Terminal Copilot. It shall provide an easier experi
 
 ## Data Flow
 
-Frontend user (API request) -> api.py (API layer) -> 
+Frontend user (API request) -> main.py (API layer) -> 
