@@ -1,48 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import "./App.css";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [response, setResponse] = useState("");
-  const [error, setError] = useState("");
+  const [chatHistory, setChatHistory] = useState([]);
+  const messagesEndRef = useRef(null);
 
   const sendMessage = async () => {
+    if (!message.trim()) return;
+
+    const newUserMessage = { sender: "user", text: message };
+    setChatHistory(prev => [...prev, newUserMessage]);
+
     try {
-      setError("");
-      setResponse("");
-      const res = await axios.post("http://127.0.0.1:8000/submit", {
-        message
+      const res = await axios.post("http://127.0.0.1:8000/chat", {
+        message: message,
       });
-      setResponse(JSON.stringify(res.data, null, 2));
+
+      const newBotMessage = { sender: "bot", text: res.data.message };
+      setChatHistory(prev => [...prev, newBotMessage]);
+
     } catch (err) {
-      setResponse("Error: " + err.message);
+      const errorMsg = { sender: "bot", text: "Error: " + err.message };
+      setChatHistory(prev => [...prev, errorMsg]);
     }
+
+    setMessage("");
   };
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatHistory]);
+  
+
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Send a Message</h2>
-      <input
-        type="text"
-        placeholder="Enter your message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        style={{ width: "80%", padding: 5 }}
-      />
-      <button onClick={sendMessage} style={{ marginLeft: 10 }}>
-        Submit
-      </button>
+    <div className="container">
+      <div className="chat-box">
+        {chatHistory.map((msg, idx) => (
+          <div
+            key={idx}
+            className={`message ${msg.sender}`}
+          >
+            {msg.text}
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
 
-      {error && (
-        <pre style={{ color: "red", marginTop: 20 }}>{error}</pre>
-      )}
-
-      {response && (
-        <div style={{ marginTop: 30, padding: 10, border: "1px solid #ccc", borderRadius: 4 }}>
-          <h3>Backend Response</h3>
-          <p>{response}</p>
-        </div>
-      )}
+      <div className="input-area">
+        <input
+          type="text"
+          className="input-field"
+          placeholder="Type a message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        />
+        <button className="send-button" onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 };
