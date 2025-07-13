@@ -5,6 +5,7 @@ venv/
 __pycache__/
 __init__.py
 appsettings.json
+.env
 
 # ==== FRONTEND .gitignore ====
 
