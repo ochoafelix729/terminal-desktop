@@ -5,10 +5,12 @@ import "./App.css";
 const App = () => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   const sendMessage = async () => {
     if (!message.trim()) return;
+    setIsLoading(true);
 
     const newUserMessage = { sender: "user", text: message };
     setChatHistory(prev => [...prev, newUserMessage]);
@@ -18,46 +20,58 @@ const App = () => {
         message: message,
       });
 
-      const newBotMessage = { sender: "bot", text: res.data.message };
+      const newBotMessage = { 
+        sender: "bot", 
+        text: res.data.response,
+        action: res.data.action 
+      };
       setChatHistory(prev => [...prev, newBotMessage]);
 
+      if (res.data.action === "exit") {
+        // Handle exit action
+        window.close();
+      }
     } catch (err) {
       const errorMsg = { sender: "bot", text: "Error: " + err.message };
       setChatHistory(prev => [...prev, errorMsg]);
+    } finally {
+      setIsLoading(false);
+      setMessage("");
     }
+  };
 
-    setMessage("");
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
-  
 
   return (
-    <div className="container">
-      <div className="chat-box">
-        {chatHistory.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`message ${msg.sender}`}
-          >
+    <div className="chat-container">
+      <div className="messages">
+        {chatHistory.map((msg, index) => (
+          <div key={index} className={`message ${msg.sender}`}>
             {msg.text}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
-
       <div className="input-area">
-        <input
-          type="text"
-          className="input-field"
-          placeholder="Type a message..."
+        <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          onKeyPress={handleKeyPress}
+          placeholder="Type a message..."
+          disabled={isLoading}
         />
-        <button className="send-button" onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage} disabled={isLoading || !message.trim()}>
+          {isLoading ? "Sending..." : "Send"}
+        </button>
       </div>
     </div>
   );

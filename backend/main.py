@@ -2,13 +2,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from cli.input_handler import run_terminal_prompt, exit_flag
+from plugins.smart_file_generator.smart_file_generator import generate_response
 import threading
 from contextlib import asynccontextmanager
-from collections import deque
 import os
 import signal
 
-MESSAGE_QUEUE = deque()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -19,7 +18,6 @@ async def lifespan(app: FastAPI):
         yield
     finally:
         exit_flag.set()
-        MESSAGE_QUEUE.clear()
         if cli_thread.is_alive():
             cli_thread.join(timeout=2.0)
 
@@ -42,20 +40,17 @@ class ChatMessage(BaseModel):
 def root():
     return {}
 
-
 @app.post("/chat")
 async def chat_endpoint(chat: ChatMessage):
-    MESSAGE_QUEUE.append({"message": chat.message})
 
     if chat.message.strip().lower() in ["exit", "quit"]:
         exit_flag.set() # stop the CLI loop
         os.kill(os.getpid(), signal.SIGINT) # kill the FastAPI server
         return {"response": "Shutting down...", "action": "exit"}
 
-    return {"response": f"Received: {chat.message}", "action": "none"}
+    response = await generate_response(chat.message)
+    return {"response": response, "action": "response_generated"}
 
-@app.get("/poll")
-async def poll_messages():
-    messages = list(MESSAGE_QUEUE)
-    MESSAGE_QUEUE.clear()
-    return {"messages": messages}
+@app.get("/plugins")
+async def get_plugins():
+    return {"plugins": ["smart_file_generator", "terminal_tutor"]}
