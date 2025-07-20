@@ -1,80 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import "./App.css";
+import React from "react";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import SmartFileGenerator from "./pages/SmartFileGenerator";
 
 const App = () => {
-  const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
+    return (
+       <Router>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="smartfilegenerator" element={<SmartFileGenerator />} />
+                <Route path="plugin2" element={<div>Plugin 2</div>} />
+                <Route path="plugin3" element={<div>Plugin 3</div>} />
+                <Route path="plugin4" element={<div>Plugin 4</div>} />
+                <Route path="*" element={<div style={{ padding: 40 }}><h2>404 - Not Found</h2></div>} />
+            </Routes>
+       </Router>
 
-  const sendMessage = async () => {
-    if (!message.trim()) return;
-    setIsLoading(true);
-
-    const newUserMessage = { sender: "user", text: message };
-    setChatHistory(prev => [...prev, newUserMessage]);
-
-    try {
-      const res = await axios.post("http://127.0.0.1:8000/chat", {
-        message: message,
-      });
-
-      const newBotMessage = { 
-        sender: "bot", 
-        text: res.data.response,
-        action: res.data.action 
-      };
-      setChatHistory(prev => [...prev, newBotMessage]);
-
-      if (res.data.action === "exit") {
-        // Handle exit action
-        window.close();
-      }
-    } catch (err) {
-      const errorMsg = { sender: "bot", text: "Error: " + err.message };
-      setChatHistory(prev => [...prev, errorMsg]);
-    } finally {
-      setIsLoading(false);
-      setMessage("");
-    }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatHistory]);
-
-  return (
-    <div className="chat-container">
-      <div className="messages">
-        {chatHistory.map((msg, index) => (
-          <div key={index} className={`message ${msg.sender}`}>
-            {msg.text}
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-      <div className="input-area">
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Type a message..."
-          disabled={isLoading}
-        />
-        <button onClick={sendMessage} disabled={isLoading || !message.trim()}>
-          {isLoading ? "Sending..." : "Send"}
-        </button>
-      </div>
-    </div>
-  );
-};
+    )
+}
 
 export default App;
