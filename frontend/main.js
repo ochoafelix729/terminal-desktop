@@ -18,7 +18,7 @@ app.whenReady().then(() => {
   });
 
   if (process.env.NODE_ENV === 'development') {
-    win.loadURL('http://localhost:3000');
+    win.loadURL('http://localhost:3001');
     if (debug === true) {
       win.webContents.openDevTools();
     }

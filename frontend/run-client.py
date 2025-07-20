@@ -5,7 +5,7 @@ import sys
 import time
 import requests
 
-os.environ["PORT"] = "3000"
+os.environ["PORT"] = "3001"
 os.environ["NODE_ENV"] = "development"
 react_process = None
 electron_process = None
@@ -20,7 +20,7 @@ def signal_handler(sig, frame):
             react_process.kill()
     sys.exit(0)
 
-def wait_for_react_server(port=3000, timeout=60):
+def wait_for_react_server(port=3001, timeout=60):
     print(f"Waiting for React dev server on port {port}...")
     start_time = time.time()
     
