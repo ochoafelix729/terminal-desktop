@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "./SmartFileGenerator.css";
 
-const SmartFileGenerator = () => {
+const ChatInterface = () => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -13,27 +12,26 @@ const SmartFileGenerator = () => {
     setIsLoading(true);
 
     const newUserMessage = { sender: "user", text: message };
-    setChatHistory(prev => [...prev, newUserMessage]);
+    setChatHistory((prev) => [...prev, newUserMessage]);
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/chat", {
         message: message,
       });
 
-      const newBotMessage = { 
-        sender: "bot", 
+      const newBotMessage = {
+        sender: "bot",
         text: res.data.response,
-        action: res.data.action 
+        action: res.data.action,
       };
-      setChatHistory(prev => [...prev, newBotMessage]);
+      setChatHistory((prev) => [...prev, newBotMessage]);
 
       if (res.data.action === "exit") {
-        // Handle exit action
         window.close();
       }
     } catch (err) {
       const errorMsg = { sender: "bot", text: "Error: " + err.message };
-      setChatHistory(prev => [...prev, errorMsg]);
+      setChatHistory((prev) => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
       setMessage("");
@@ -77,4 +75,4 @@ const SmartFileGenerator = () => {
   );
 };
 
-export default SmartFileGenerator;
+export default ChatInterface;

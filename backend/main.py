@@ -54,3 +54,11 @@ async def chat_endpoint(chat: ChatMessage):
 @app.get("/plugins")
 async def get_plugins():
     return {"plugins": ["smart_file_generator", "terminal_tutor"]}
+
+current_plugin = {"name": None}
+
+@app.post("/set_plugin")
+def set_plugin(data: dict):
+    plugin_name = data.get("plugin")
+    current_plugin["name"] = plugin_name
+    return {"status": "ok", "plugin": plugin_name}

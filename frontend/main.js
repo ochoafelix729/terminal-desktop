@@ -1,15 +1,17 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
 const pty = require("node-pty");
 
 let win;
 let shell;
-let debug = false;
+let debug = true;
 
 app.whenReady().then(() => {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
