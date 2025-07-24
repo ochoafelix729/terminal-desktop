@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import TerminalUI from "../components/TerminalUI";
-import SmartFileGenerator from "../components/SmartFileGeneratorButton";
+import SmartFileGenerator from "../components/SmartFileGenerator";
 import TerminalTutor from "../components/TerminalTutor";
 import Plugin3 from "../components/Plugin3";
 import Plugin4 from "../components/Plugin4";

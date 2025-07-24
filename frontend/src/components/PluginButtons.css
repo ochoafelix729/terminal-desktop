@@ -14,3 +14,30 @@
     background-color: #666;
   }
   
+  .example-question-box {
+    background-color: #2f2f2f;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    color: #ddd;
+    font-size: 0.95rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  }
+  
+  .example-label {
+    font-weight: bold;
+    color: #aaa;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .example-text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #eee;
+  }

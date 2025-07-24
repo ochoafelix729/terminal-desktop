@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import "./ChatInterface.css";
 
-const ChatInterface = () => {
+const ChatInterface = ({ setExternalMessage }) => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -46,6 +48,15 @@ const ChatInterface = () => {
   };
 
   useEffect(() => {
+    if (setExternalMessage) {
+      setExternalMessage((newVal) => {
+        setMessage(newVal);
+        inputRef.current?.focus();
+      });
+    }
+  }, [setExternalMessage]);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
 
@@ -53,14 +64,45 @@ const ChatInterface = () => {
     <div className="chat-container">
       <div className="messages">
         {chatHistory.map((msg, index) => (
-          <div key={index} className={`message ${msg.sender}`}>
-            {msg.text}
+          <div key={index} className={`message-bubble ${msg.sender}`}>
+            <div className="message-text">{msg.text}</div>
+            {msg.sender === "bot" && msg.action && (
+                <div className="action-buttons">
+                    <button
+                        className="accept-btn"
+                        onClick={() => {
+                            if (window.electronAPI && msg.text) {
+                            window.electronAPI.sendInput(msg.text + "\n");
+                            } else {
+                            console.warn("electronAPI or message text not available");
+                            }
+                        }}
+                    >
+                        Accept
+                    </button>
+                    <button className="decline-btn"
+                        onClick={() => {
+                            setChatHistory((prev) =>
+                              prev.map((msgItem, i) =>
+                                i === index
+                                  ? { ...msgItem, text: "❌ You declined the suggestion.", action: null }
+                                  : msgItem
+                              )
+                            );
+                        }}
+                    >  
+                        Decline
+                    </button>
+                </div>
+            )}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
       <div className="input-area">
         <textarea
+          className="chat-input" 
+          ref={inputRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyPress={handleKeyPress}
