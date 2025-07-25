@@ -15,6 +15,7 @@ frontend/package-lock.json
 frontend/package.json
 frontend/webpack.config.js
 frontend/dist/
+frontend/build/
 
 # Logs
 logs

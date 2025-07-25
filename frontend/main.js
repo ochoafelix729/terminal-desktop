@@ -1,15 +1,19 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
 const pty = require("node-pty");
+const axios = require("axios");
+const { UNSAFE_getTurboStreamSingleFetchDataStrategy } = require("react-router-dom");
 
 let win;
 let shell;
 let debug = false;
 
 app.whenReady().then(() => {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -61,6 +65,9 @@ app.whenReady().then(() => {
   ipcMain.on("terminal-input", (event, input) => {
     shell.write(input);
   });
+  
+  axios.post("http://127.0.0.1:8001/set_shell_type", {shell_type: shellType});
+  
 
 
 });
