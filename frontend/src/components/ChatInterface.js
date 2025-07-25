@@ -17,7 +17,7 @@ const ChatInterface = ({ setExternalMessage }) => {
     setChatHistory((prev) => [...prev, newUserMessage]);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/chat", {
+      const res = await axios.post("http://127.0.0.1:8001/chat", {
         message: message,
       });
 

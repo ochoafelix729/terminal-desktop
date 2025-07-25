@@ -36,6 +36,11 @@ app.add_middleware(
 class ChatMessage(BaseModel):
     message: str
 
+# global variables
+current_plugin = {"name": None}
+shell_type = ""
+
+
 @app.get("/")
 def root():
     return {}
@@ -48,17 +53,23 @@ async def chat_endpoint(chat: ChatMessage):
         os.kill(os.getpid(), signal.SIGINT) # kill the FastAPI server
         return {"response": "Shutting down...", "action": "exit"}
 
-    response = await generate_response(chat.message)
+    response = await generate_response(chat.message, shell_type)
     return {"response": response, "action": "response_generated"}
 
 @app.get("/plugins")
 async def get_plugins():
     return {"plugins": ["smart_file_generator", "terminal_tutor"]}
 
-current_plugin = {"name": None}
 
 @app.post("/set_plugin")
 def set_plugin(data: dict):
     plugin_name = data.get("plugin")
     current_plugin["name"] = plugin_name
     return {"status": "ok", "plugin": plugin_name}
+
+
+@app.post("/set_shell_type")
+def set_shell_type(data: dict):
+    global shell_type
+    shell_type = data.get("shell_type")
+    return {"status": "ok", "shell_type": shell_type}
