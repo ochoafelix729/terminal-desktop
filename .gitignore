@@ -1,6 +1,5 @@
 # ==== BACKEND .gitignore ====
 
-requirements.txt
 venv/
 __pycache__/
 __init__.py
@@ -16,6 +15,7 @@ frontend/package.json
 frontend/webpack.config.js
 frontend/dist/
 frontend/build/
+jsconfig.json
 
 # Logs
 logs
