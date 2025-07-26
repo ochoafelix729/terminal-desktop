@@ -89,7 +89,7 @@ const HomeLayout = () => {
         {plugins.map((plugin, idx) => (
           <button
             key={idx}
-            className="plugin-button"
+            className={`plugin-button ${activePlugin === plugin.name ? "active" : ""}`}
             onClick={() => handlePluginClick(plugin.name)}
           >
             {plugin.name}

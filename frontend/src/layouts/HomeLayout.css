@@ -58,3 +58,10 @@
   font-size: 2.5rem;
   margin-bottom: 1rem;
 }
+
+.plugin-button.active {
+  background-color: #2a2a2a;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #ffa500;
+}
