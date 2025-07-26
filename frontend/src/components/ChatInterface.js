@@ -27,7 +27,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
       const reader = res.body.getReader();
       const decoder = new TextDecoder("utf-8");
 
-      let botMessage = { sender: "bot", text: "", isStreamComplete: false };
+      let botMessage = { sender: "bot", text: "", isStreamComplete: false, declined: false };
       setChatHistory((prev) => [...prev, botMessage]);
 
       while (true) {
@@ -91,7 +91,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
         {chatHistory.map((msg, index) => (
           <div key={index} className={`message-bubble ${msg.sender}`}>
             <div className="message-text" dangerouslySetInnerHTML={{ __html: msg.text }} />
-            {msg.sender === "bot" && showActionButtons && msg.isStreamComplete && (
+            {msg.sender === "bot" && showActionButtons && msg.isStreamComplete && !msg.declined && (
                 <div className="action-buttons">
                     <button
                         className="accept-btn"
@@ -110,7 +110,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
                             setChatHistory((prev) =>
                               prev.map((msgItem, i) =>
                                 i === index
-                                  ? { ...msgItem, text: "❌ You declined the suggestion.", action: null }
+                                  ? { ...msgItem, text: "❌ You declined the suggestion.", declined: true }
                                   : msgItem
                               )
                             );
