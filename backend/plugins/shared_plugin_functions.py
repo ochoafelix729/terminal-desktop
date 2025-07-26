@@ -21,12 +21,13 @@ async def query_llm(message: str, system_prompt: str) -> str:
         response = await client.chat.completions.create(
             model=os.getenv("OPENAI_MODEL"),
             messages=[
-                {"role": "system", "content": read_prompt_file(system_prompt)},
+                {"role": "system", "content": system_prompt},
                 {"role": "user", "content": message}
             ],
             temperature=0.7,
             max_tokens=150
         )
+        print(system_prompt)
         return response.choices[0].message.content
     except Exception as e:
         return f"Error querying LLM: {str(e)}"

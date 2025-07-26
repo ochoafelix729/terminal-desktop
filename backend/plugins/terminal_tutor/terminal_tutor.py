@@ -1,9 +1,13 @@
-from plugins.shared_plugin_functions import query_llm
+from plugins.shared_plugin_functions import query_llm, read_prompt_file
 import asyncio
+import os
 
-async def generate_response(message: str) -> str:
+prompt_file = "terminal_tutor_prompt.txt"
+prompt_path = os.path.join(os.path.dirname(__file__), prompt_file)
+
+async def generate_response(message: str, shell_type: str) -> str:
     response = await query_llm(
         message=message,
-        system_prompt="terminal_tutor/prompt.txt"
+        system_prompt=read_prompt_file(prompt_path).replace("{shellType}", shell_type)
     )
     return response

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./ChatInterface.css";
 
-const ChatInterface = ({ setExternalMessage }) => {
+const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +66,7 @@ const ChatInterface = ({ setExternalMessage }) => {
         {chatHistory.map((msg, index) => (
           <div key={index} className={`message-bubble ${msg.sender}`}>
             <div className="message-text">{msg.text}</div>
-            {msg.sender === "bot" && msg.action && (
+            {msg.sender === "bot" && msg.action && showActionButtons && (
                 <div className="action-buttons">
                     <button
                         className="accept-btn"
