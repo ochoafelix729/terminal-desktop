@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
 import axios from "axios";
 import "./ChatInterface.css";
 
@@ -17,20 +18,44 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
     setChatHistory((prev) => [...prev, newUserMessage]);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8001/chat", {
-        message: message,
+      const res = await fetch("http://127.0.0.1:8001/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
       });
 
-      const newBotMessage = {
-        sender: "bot",
-        text: res.data.response,
-        action: res.data.action,
-      };
-      setChatHistory((prev) => [...prev, newBotMessage]);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
 
-      if (res.data.action === "exit") {
-        window.close();
+      let botMessage = { sender: "bot", text: "", isStreamComplete: false, declined: false };
+      setChatHistory((prev) => [...prev, botMessage]);
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        const clean = chunk.replace(/^data:\s*/gm, "").replace(/\n\n/g, "");
+        
+        // Check for formatting replacement signal
+        if (clean.includes("__REPLACE_WITH_FORMATTED__")) {
+          const formattedContent = clean.split("__REPLACE_WITH_FORMATTED__")[1];
+          botMessage.text = formattedContent;
+        } else {
+          botMessage.text += clean;
+        }
+      
+        setChatHistory((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = { ...botMessage };
+          return updated;
+        });
       }
+      botMessage.isStreamComplete = true;
+      setChatHistory((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { ...botMessage };
+        return updated;
+      });
     } catch (err) {
       const errorMsg = { sender: "bot", text: "Error: " + err.message };
       setChatHistory((prev) => [...prev, errorMsg]);
@@ -65,8 +90,8 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
       <div className="messages">
         {chatHistory.map((msg, index) => (
           <div key={index} className={`message-bubble ${msg.sender}`}>
-            <div className="message-text">{msg.text}</div>
-            {msg.sender === "bot" && msg.action && showActionButtons && (
+            <div className="message-text" dangerouslySetInnerHTML={{ __html: msg.text }} />
+            {msg.sender === "bot" && showActionButtons && msg.isStreamComplete && !msg.declined && (
                 <div className="action-buttons">
                     <button
                         className="accept-btn"
@@ -85,7 +110,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
                             setChatHistory((prev) =>
                               prev.map((msgItem, i) =>
                                 i === index
-                                  ? { ...msgItem, text: "❌ You declined the suggestion.", action: null }
+                                  ? { ...msgItem, text: "❌ You declined the suggestion.", declined: true }
                                   : msgItem
                               )
                             );
