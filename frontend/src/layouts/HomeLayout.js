@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import TerminalUI from "../components/TerminalUI";
@@ -13,6 +13,33 @@ import "../components/PluginButtons.css";
 const HomeLayout = () => {
 
   const [activePlugin, setActivePlugin] = useState(null);
+  const terminalPaneRef = useRef(null);
+  const copilotPanelRef = useRef(null);
+
+  useEffect(() => {
+    if (!copilotPanelRef.current || !terminalPaneRef.current) {
+      console.error("References to copilotPanel or terminalPane are not initialized.");
+      return;
+    }
+  
+    const handleResize = () => {
+      const copilotWidth = copilotPanelRef.current.offsetWidth || 0;
+      terminalPaneRef.current.style.width = `calc(100vw - ${copilotWidth}px)`;
+    };
+  
+    // Initialize the width on mount
+    handleResize();
+  
+    const observer = new ResizeObserver(() => {
+      handleResize();
+    });
+  
+    observer.observe(copilotPanelRef.current);
+  
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const plugins = [
     { name: "Smart File Generator", path: "/smart-file-generator" },
