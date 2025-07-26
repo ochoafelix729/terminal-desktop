@@ -2,28 +2,13 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from cli.input_handler import run_terminal_prompt, exit_flag
-import threading
-from contextlib import asynccontextmanager
 import os
 import signal
 from typing import AsyncGenerator
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    cli_thread = threading.Thread(target=run_terminal_prompt, daemon=True)
-    cli_thread.start()
 
-    try:
-        yield
-    finally:
-        exit_flag.set()
-        if cli_thread.is_alive():
-            cli_thread.join(timeout=2.0)
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
