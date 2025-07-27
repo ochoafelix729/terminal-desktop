@@ -9,7 +9,7 @@ import hashlib
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./dev.db")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # For sqlite, need check_same_thread=False for multithreading with FastAPI
 engine = create_engine(
@@ -48,6 +48,7 @@ def add_conversation(question: str, response: str, selected_plugin: str,
         if password:
             convo.password = hashlib.sha256(password.encode()).hexdigest()
         db.add(convo)
+        print(f"Added convo to database: {convo}")
         db.commit()
     except Exception as e:
         db.rollback()
