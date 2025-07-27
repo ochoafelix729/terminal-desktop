@@ -5,7 +5,12 @@ from fastapi.responses import StreamingResponse
 import os
 import signal
 from typing import AsyncGenerator
-from database.db import add_conversation, add_user, verify_user
+from database.db import (
+    add_conversation,
+    add_user,
+    verify_user,
+    get_user_by_username,
+)
 
 
 
@@ -37,6 +42,7 @@ class SigninData(BaseModel):
 # global variables
 current_plugin = {"name": None}
 shell_type = ""
+current_user = {"username": None, "email": None, "password": None}
 
 
 @app.get("/")
@@ -48,6 +54,9 @@ def root():
 def signup(data: SignupData):
     success = add_user(data.username, data.email, data.password)
     if success:
+        current_user["username"] = data.username
+        current_user["email"] = data.email
+        current_user["password"] = data.password
         return {"status": "ok"}
     return {"status": "error", "message": "User already exists"}
 
@@ -55,6 +64,11 @@ def signup(data: SignupData):
 @app.post("/signin")
 def signin(data: SigninData):
     if verify_user(data.username, data.password):
+        user = get_user_by_username(data.username)
+        if user:
+            current_user["username"] = user.username
+            current_user["email"] = user.email
+            current_user["password"] = data.password
         return {"status": "ok"}
     return {"status": "error", "message": "Invalid credentials"}
 
@@ -79,7 +93,10 @@ async def chat_endpoint(chat: ChatMessage):
         add_conversation(
             question=chat.message,
             response=full_response,
-            selected_plugin=current_plugin["name"]
+            selected_plugin=current_plugin["name"],
+            username=current_user["username"],
+            email=current_user["email"],
+            password=current_user["password"]
         )
 
     return StreamingResponse(event_stream(), media_type="text/event-stream")

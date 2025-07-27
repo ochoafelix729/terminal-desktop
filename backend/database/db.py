@@ -87,3 +87,12 @@ def verify_user(username: str, password: str) -> bool:
     finally:
         db.close()
 
+
+def get_user_by_username(username: str) -> User | None:
+    """Fetch a user record by username."""
+    db = SessionLocal()
+    try:
+        return db.query(User).filter(User.username == username).first()
+    finally:
+        db.close()
+
