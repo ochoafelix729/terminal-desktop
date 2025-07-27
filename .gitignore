@@ -10,8 +10,6 @@ appsettings.json
 
 frontend/.babelrc
 frontend/forge.config.js
-frontend/package-lock.json
-frontend/package.json
 frontend/webpack.config.js
 frontend/dist/
 frontend/build/
