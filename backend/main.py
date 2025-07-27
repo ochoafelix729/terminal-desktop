@@ -5,7 +5,7 @@ from fastapi.responses import StreamingResponse
 import os
 import signal
 from typing import AsyncGenerator
-from database.db import add_conversation
+from database.db import add_conversation, add_user, verify_user
 
 
 
@@ -23,6 +23,17 @@ app.add_middleware(
 class ChatMessage(BaseModel):
     message: str
 
+
+class SignupData(BaseModel):
+    username: str
+    email: str | None = None
+    password: str
+
+
+class SigninData(BaseModel):
+    username: str
+    password: str
+
 # global variables
 current_plugin = {"name": None}
 shell_type = ""
@@ -31,6 +42,21 @@ shell_type = ""
 @app.get("/")
 def root():
     return {}
+
+
+@app.post("/signup")
+def signup(data: SignupData):
+    success = add_user(data.username, data.email, data.password)
+    if success:
+        return {"status": "ok"}
+    return {"status": "error", "message": "User already exists"}
+
+
+@app.post("/signin")
+def signin(data: SigninData):
+    if verify_user(data.username, data.password):
+        return {"status": "ok"}
+    return {"status": "error", "message": "Invalid credentials"}
 
 
 @app.post("/chat")
