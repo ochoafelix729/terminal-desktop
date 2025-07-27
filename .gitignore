@@ -5,6 +5,9 @@ __pycache__/
 __init__.py
 appsettings.json
 .env
+*.db
+*.sqlite3
+*db-journal
 
 # ==== FRONTEND .gitignore ====
 
