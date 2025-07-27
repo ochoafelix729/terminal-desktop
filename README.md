@@ -42,6 +42,8 @@ This project is called Terminal Desktop. It provides an easier experience for us
         - **App.js** - entry point for frontend (will become a router later)
         - **index.js** - React DOM entry point; renders App.js
     - **main.js** (API client) - enables shell environment; communicates with TerminalUI.js to send and receive terminal I/O
+    - **package-lock.json** - locks the exacts versions of all npm dependencies
+    - **package.json** - contains all npm dependencies, scripts, and metadata
     - **preload.js** - bridge between Electron main process and frontend
     - **run-client.py** - executable script that starts up the frontend
 - **run.py** - executable script that starts both the backend and frontend
