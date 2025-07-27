@@ -2,7 +2,6 @@ const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
 const pty = require("node-pty");
 const axios = require("axios");
-const { UNSAFE_getTurboStreamSingleFetchDataStrategy } = require("react-router-dom");
 
 let win;
 let shell;

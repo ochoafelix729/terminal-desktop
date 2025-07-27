@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
-import ChatInterface from "./ChatInterface";
+import ChatInterface from "../components/ChatInterface";
+import "./SmartFileGenerator.css";
 
-const TerminalTutor = () => {
-  const examplePrompt = "How do I navigate to my home directory quickly?";
+const SmartFileGenerator = () => {
+  const examplePrompt = "Create a folder named 'Reports' with a README.md file.";
   const setExternalMessageRef = useRef(null);
 
   return (
@@ -26,14 +27,11 @@ const TerminalTutor = () => {
 
       <div style={{ marginTop: "auto" }}>
         <ChatInterface setExternalMessage={(setter) => {
-                setExternalMessageRef.current = setter;
-            }}
-            showActionButtons={false}
-        />
+          setExternalMessageRef.current = setter;
+        }} />
       </div>
     </div>
   );
 };
 
-export default TerminalTutor;
- 
+export default SmartFileGenerator;

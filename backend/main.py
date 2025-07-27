@@ -34,14 +34,6 @@ def root():
 
 @app.post("/chat")
 async def chat_endpoint(chat: ChatMessage):
-    if chat.message.strip().lower() in ["exit", "quit"]:
-        exit_flag.set()  # stop the CLI loop
-        os.kill(os.getpid(), signal.SIGINT)  # kill the FastAPI server
-        return StreamingResponse(
-            iter(["data: Shutting down...\n\n"]),
-            media_type="text/event-stream"
-        )
-
     if current_plugin["name"] == "Smart File Generator":
         from plugins.smart_file_generator.smart_file_generator import generate_response
     elif current_plugin["name"] == "Terminal Tutor":

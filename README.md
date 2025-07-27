@@ -1,6 +1,6 @@
 ## Project Overview
 
-This project shall be called Terminal Copilot. It shall provide an easier experience for users when handling their terminal on MacOS. This is similar to how Github Desktop makes it easier to manage git version control.
+This project is called Terminal Desktop. It provides an easier experience for users when working with their terminal (works on all operating systems and shell types). This is similar to how Github Desktop makes it easier to manage git version control.
 
 ## Prerequisites
 
@@ -10,17 +10,40 @@ This project shall be called Terminal Copilot. It shall provide an easier experi
 3. Set up virtual environment
 - In your project directory in your terminal, type: ```python3 -m venv venv```
 - Now, activate the virtual environment by typing: ```source venv/bin/activate```
+4. Install dependencies
+- Once your virtual environment is activate, type:
+```pip install -r requirements.txt```
 
-## Git Reference
 
-- Delete remote branche after merging and deleting - ```git remote prune origin```
-- Delete local branch - ```git branch -d <branch-name>```
+## Project Architecture
 
-## Tech Stack
-
-- Frontend - React + Electron
-- Backend - Python w/ FastAPI
-
-## Data Flow
-
-Frontend user (API request) -> main.py (API layer) -> 
+- **backend/** - contains all backend files
+    - **database/** - will contain any database related files (not set up yet)
+    - **plugins/** - contains all plugin-related files
+        - **smart_file_generator/** - folder for Smart File Generator plugin
+            - **smart_file_generator.py** - sends query to LLM with its system prompt
+            - **smart_file_generator_prompt.txt** - system prompt for Smart File Generator plugin
+        - **terminal_tutor/** - folder for Terminal Tutor plugin
+            - **terminal_tutor.py** - sends query to LLM with its system prompt
+            - **terminal_tutor_prompt.txt** - system prompt for Terminal Tutor plugin
+        - **shared_plugin_functions.py** - contains all shared functions used by plugins
+    - **main.py** - API layer; includes all endpoints
+    **run-server.py** - executable script that starts up the backend
+- **frontend/** - contains all frontend files
+    - **src/** - contains all source files
+        - **components/** - contains general components
+            - **ChatInterface.js** (API client) - handles all chat related actions
+            - **TerminalUI.js** - handles terminal view; communicates with main.js to send and receive terminal I/O
+        - **layouts/** - contains all layouts
+            - **HomeLayout.js** (API client) - orchestrates side panel and terminal view logic
+        - **plugins/** - contains all plugin components
+            - **SmartFileGenerator.js** - Smart File Generator button and custom chat configurations
+            - **TerminalTutor.js** - Terminal Tutor button and custom chat configurations
+        - **App.js** - entry point for frontend (will become a router later)
+        - **index.js** - React DOM entry point; renders App.js
+    - **main.js** (API client) - enables shell environment; communicates with TerminalUI.js to send and receive terminal I/O
+    - **preload.js** - bridge between Electron main process and frontend
+    - **run-client.py** - executable script that starts up the frontend
+- **run.py** - executable script that starts both the backend and frontend
+- **README.md** - touches on important info about project
+- **requirements.txt** - contains all python modules necessary for the project
