@@ -11,8 +11,10 @@ This project is called Terminal Desktop. It provides an easier experience for us
 - In your project directory in your terminal, type: ```python3 -m venv venv```
 - Now, activate the virtual environment by typing: ```source venv/bin/activate```
 4. Install dependencies
-- Once your virtual environment is activate, type:
-```pip install -r requirements.txt```
+- Once your virtual environment is active, type:
+    - Windows - ```pip install -r requirements.txt & cd frontend & npm install & npx electron-rebuild```
+    - MacOS - ```pip install -r requirements.txt && cd frontend && npm install && npx electron-rebuild```
+
 
 
 ## Project Architecture
