@@ -20,3 +20,18 @@ class Conversation(Base):
     def set_password(self, plain: str):
         if plain:
             self.password = hashlib.sha256(plain.encode()).hexdigest()
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=True)
+    password = Column(String, nullable=False)
+
+    def set_password(self, plain: str):
+        self.password = hashlib.sha256(plain.encode()).hexdigest()
+
+    def verify_password(self, plain: str) -> bool:
+        return self.password == hashlib.sha256(plain.encode()).hexdigest()
