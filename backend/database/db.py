@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
 
-from .models import Base, Conversation
+from .models import Base, Conversation, User
 from datetime import datetime
 import hashlib
 
@@ -53,6 +53,46 @@ def add_conversation(question: str, response: str, selected_plugin: str,
     except Exception as e:
         db.rollback()
         print(f"Error saving conversation: {e}")
+    finally:
+        db.close()
+
+
+def add_user(username: str, email: str | None, password: str) -> bool:
+    """Create a new user if username does not exist."""
+    db = SessionLocal()
+    try:
+        if db.query(User).filter(User.username == username).first():
+            return False
+        user = User(username=username, email=email)
+        user.set_password(password)
+        db.add(user)
+        db.commit()
+        return True
+    except Exception as e:
+        db.rollback()
+        print(f"Error creating user: {e}")
+        return False
+    finally:
+        db.close()
+
+
+def verify_user(username: str, password: str) -> bool:
+    """Verify username and password."""
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(User.username == username).first()
+        if not user:
+            return False
+        return user.verify_password(password)
+    finally:
+        db.close()
+
+
+def get_user_by_username(username: str) -> User | None:
+    """Fetch a user record by username."""
+    db = SessionLocal()
+    try:
+        return db.query(User).filter(User.username == username).first()
     finally:
         db.close()
 
