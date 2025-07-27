@@ -5,6 +5,7 @@ from fastapi.responses import StreamingResponse
 import os
 import signal
 from typing import AsyncGenerator
+from database.db import add_conversation
 
 
 
@@ -45,8 +46,15 @@ async def chat_endpoint(chat: ChatMessage):
         )
 
     async def event_stream() -> AsyncGenerator[str, None]:
+        full_response = ""
         async for chunk in generate_response(chat.message, shell_type):
+            full_response += chunk
             yield f"data: {chunk}\n\n"
+        add_conversation(
+            question=chat.message,
+            response=full_response,
+            selected_plugin=current_plugin["name"]
+        )
 
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
