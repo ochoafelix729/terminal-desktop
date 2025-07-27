@@ -15,12 +15,16 @@ This project is called Terminal Desktop. It provides an easier experience for us
     - Windows - ```pip install -r requirements.txt & cd frontend & npm install & npx electron-rebuild```
     - MacOS - ```pip install -r requirements.txt && cd frontend && npm install && npx electron-rebuild```
 
+5. Configure environment variables
+    - Copy `.env.example` to `.env`
+    - Update values like `DATABASE_URL` or API keys if necessary
+
 
 
 ## Project Architecture
 
 - **backend/** - contains all backend files
-    - **database/** - will contain any database related files (not set up yet)
+    - **database/** - SQLAlchemy models and helpers for the local database
     - **plugins/** - contains all plugin-related files
         - **smart_file_generator/** - folder for Smart File Generator plugin
             - **smart_file_generator.py** - sends query to LLM with its system prompt
