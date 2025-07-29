@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./ChatInterface.css";
 
 const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
@@ -9,6 +10,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -87,6 +89,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
 
   return (
     <div className="chat-container">
+      <div className="account-icon" onClick={() => navigate('/account')}>👤</div>
       <div className="messages">
         {chatHistory.map((msg, index) => (
           <div key={index} className={`message-bubble ${msg.sender}`}>

@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 from .models import Base, Conversation, User
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 
 load_dotenv()
@@ -93,6 +93,21 @@ def get_user_by_username(username: str) -> User | None:
     db = SessionLocal()
     try:
         return db.query(User).filter(User.username == username).first()
+    finally:
+        db.close()
+
+
+def get_conversations_last_30_days(username: str) -> list[Conversation]:
+    """Return conversations for a user within the last 30 days."""
+    db = SessionLocal()
+    try:
+        cutoff = datetime.utcnow() - timedelta(days=30)
+        return (
+            db.query(Conversation)
+            .filter(Conversation.username == username, Conversation.date_time >= cutoff)
+            .order_by(Conversation.date_time.desc())
+            .all()
+        )
     finally:
         db.close()
 

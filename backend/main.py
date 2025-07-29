@@ -10,6 +10,7 @@ from database.db import (
     add_user,
     verify_user,
     get_user_by_username,
+    get_conversations_last_30_days,
 )
 
 
@@ -120,3 +121,29 @@ def set_shell_type(data: dict):
     global shell_type
     shell_type = data.get("shell_type")
     return {"status": "ok", "shell_type": shell_type}
+
+
+@app.get("/account")
+def get_account():
+    """Return current user info and last 30 days of conversations."""
+    username = current_user.get("username")
+    if not username:
+        return {"status": "error", "message": "Not signed in"}
+
+    user = get_user_by_username(username)
+    conversations = get_conversations_last_30_days(username)
+    convos_data = [
+        {
+            "question": c.question,
+            "response": c.response,
+            "selected_plugin": c.selected_plugin,
+            "date_time": c.date_time.isoformat(),
+        }
+        for c in conversations
+    ]
+    return {
+        "status": "ok",
+        "username": user.username if user else username,
+        "email": user.email if user else None,
+        "conversations": convos_data,
+    }

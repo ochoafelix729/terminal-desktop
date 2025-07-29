@@ -1,4 +1,5 @@
 .chat-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -8,6 +9,13 @@
   padding: 1rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   color: #ddd;
+}
+
+.account-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
 }
   
 .messages {
