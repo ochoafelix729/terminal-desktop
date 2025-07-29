@@ -1,0 +1,41 @@
+.left-sidebar-nav {
+    width: 60px;                        
+    height: 100%;                       
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1e1e1e;
+    padding: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+  }
+  
+  /* Reset list styling */
+  .sidebar-icon-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  /* Each icon slot */
+  .sidebar-icon-item {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  /* Placeholder button for future icons */
+  .sidebar-icon-button {
+    width: 100%;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+  
+  /* Hover feedback */
+  .sidebar-icon-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }

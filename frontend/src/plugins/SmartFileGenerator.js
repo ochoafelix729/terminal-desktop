@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import ChatInterface from "../pages/ChatInterface";
-import "./SmartFileGenerator.css";
+import "./PluginButtons.css";
 
 const SmartFileGenerator = () => {
   const examplePrompt = "Create a folder named 'Reports' with a README.md file.";
