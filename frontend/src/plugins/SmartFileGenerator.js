@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import ChatInterface from "../components/ChatInterface";
+import ChatInterface from "../pages/ChatInterface";
 import "./SmartFileGenerator.css";
 
 const SmartFileGenerator = () => {
