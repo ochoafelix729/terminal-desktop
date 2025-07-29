@@ -89,7 +89,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
 
   return (
     <div className="chat-container">
-      <div className="account-icon" onClick={() => navigate('/account')}>👤</div>
+      <div className="account-icon" onClick={() => navigate('/home/account')}>👤</div>
       <div className="messages">
         {chatHistory.map((msg, index) => (
           <div key={index} className={`message-bubble ${msg.sender}`}>

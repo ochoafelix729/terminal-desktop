@@ -1,5 +1,5 @@
 import { React, useState, useRef, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import TerminalUI from "./TerminalUI";
 import SmartFileGenerator from "../plugins/SmartFileGenerator";
@@ -15,6 +15,8 @@ const HomeLayout = () => {
   const [activePlugin, setActivePlugin] = useState(null);
   const terminalPaneRef = useRef(null);
   const copilotPanelRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!copilotPanelRef.current || !terminalPaneRef.current) {
@@ -52,12 +54,17 @@ const HomeLayout = () => {
     try {
       await axios.post("http://127.0.0.1:8001/set_plugin", { plugin: pluginName });
       setActivePlugin(pluginName);
+      navigate('/home');
     } catch (err) {
       console.error("Failed to set plugin:", err);
     }
   };
 
   const renderPluginSidebar = () => {
+
+    if (location.pathname.endsWith("/account")) {
+      return <Outlet />;
+    }
 
     if (!activePlugin) {
       return (
@@ -95,6 +102,12 @@ const HomeLayout = () => {
             {plugin.name}
           </button>
         ))}
+        <button
+          className="plugin-button"
+          onClick={() => navigate("account")}
+        >
+          Account
+        </button>
         <div className="plugin-ui">
           {renderPluginSidebar()}
         </div>
