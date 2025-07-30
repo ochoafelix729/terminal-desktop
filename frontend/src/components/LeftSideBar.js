@@ -1,29 +1,41 @@
-import React from "react";
+import { React } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LeftSideBar.css";
 
 
 const LeftSideBar = () => {
+
+    const navigate = useNavigate();
+
     return (
       <nav className="left-sidebar-nav">
         <ul className="sidebar-icon-list">
-          {/* Future icons will go here */}
-          <li className="sidebar-icon-item">
-            <button
-              className="sidebar-icon-button"
-              aria-label="Icon placeholder"
-            />
+          <li className="icon-button">
+            <button 
+                onClick={() =>{
+                    navigate("/settings")
+                }}
+            >
+                ⚙️ Settings
+            </button>
           </li>
-          <li className="sidebar-icon-item">
+          <li className="icon-button">
             <button
-              className="sidebar-icon-button"
-              aria-label="Icon placeholder"
-            />
+                onClick={() =>{
+                    navigate("/history")
+                }}
+            >
+                🕘 History
+            </button>
           </li>
-          <li className="sidebar-icon-item">
+          <li className="icon-button">
             <button
-              className="sidebar-icon-button"
-              aria-label="Icon placeholder"
-            />
+                onClick={() =>{
+                    navigate("/create")
+                }}
+            >
+                🛠️ Create
+            </button>
           </li>
         </ul>
       </nav>
