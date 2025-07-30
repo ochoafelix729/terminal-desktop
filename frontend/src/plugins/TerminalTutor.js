@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import ChatInterface from "../pages/ChatInterface";
+import "./PluginButtons.css";
 
 const TerminalTutor = () => {
   const examplePrompt = "How do I navigate to my home directory quickly?";

@@ -8,6 +8,8 @@ import Plugin3 from "../plugins/Plugin3";
 import Plugin4 from "../plugins/Plugin4";
 import "./HomeLayout.css";
 import "../plugins/PluginButtons.css";
+import LeftSideBar from "../components/LeftSideBar";
+import "../components/LeftSideBar.css";
 
 
 const HomeLayout = () => {
@@ -85,21 +87,26 @@ const HomeLayout = () => {
 
   return (
     <div className="layout-container">
-      <div className="copilot-panel">
-        {plugins.map((plugin, idx) => (
-          <button
-            key={idx}
-            className={`plugin-button ${activePlugin === plugin.name ? "active" : ""}`}
-            onClick={() => handlePluginClick(plugin.name)}
-          >
-            {plugin.name}
-          </button>
-        ))}
-        <div className="plugin-ui">
-          {renderPluginSidebar()}
+      <div ref={copilotPanelRef} className="copilot-panel">
+        <div className="left-sidebar">
+          <LeftSideBar />
+        </div>
+        <div className="plugin-section">
+          {plugins.map((plugin, idx) => (
+            <button
+              key={idx}
+              className={`plugin-button ${activePlugin === plugin.name ? "active" : ""}`}
+              onClick={() => handlePluginClick(plugin.name)}
+            >
+              {plugin.name}
+            </button>
+          ))}
+          <div className="plugin-ui">
+            {renderPluginSidebar()}
+          </div>
         </div>
       </div>
-      <div className="terminal-pane">
+      <div ref={terminalPaneRef} className="terminal-pane">
         <TerminalUI />
       </div>
     </div>

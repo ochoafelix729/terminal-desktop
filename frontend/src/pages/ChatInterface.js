@@ -76,14 +76,14 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
     if (setExternalMessage) {
       setExternalMessage((newVal) => {
         setMessage(newVal);
-        inputRef.current?.focus();
+        inputRef.current?.focus({ preventScroll: true });
       });
     }
   }, [setExternalMessage]);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatHistory]);
+  // useEffect(() => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [chatHistory]);
 
   return (
     <div className="chat-container">
