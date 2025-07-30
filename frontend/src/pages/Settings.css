@@ -1,0 +1,42 @@
+.settings-container {
+  display: flex;
+  height: 100vh;
+  background-color: #2b2b2b;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.settings-sidebar {
+  width: 220px;
+  background-color: #1e1e1e;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-link {
+  color: #ddd;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.settings-link:hover,
+.settings-link.active {
+  background-color: #444;
+  color: #fff;
+}
+
+.settings-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.settings-section h2 {
+  margin-top: 0;
+}
