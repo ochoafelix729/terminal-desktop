@@ -1,8 +1,16 @@
+/* prevent any viewport‐level scrolling */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
 .layout-container {
   display: flex;
   height: 100vh;
   width: 100vw;
   background-color: #ffebeb;
+  overflow: hidden;
 }
 
 .copilot-panel {
@@ -15,7 +23,6 @@
   padding: 1rem;
   box-sizing: border-box;
   justify-content: space-between;
-  resize: horizontal;
   overflow-x: hidden;
   overflow-y: hidden;
   padding: 0.5rem;
@@ -49,9 +56,9 @@
 }
 
 .terminal-pane {
+  height: 100%;
   flex: 1;
-  padding: 1rem;
-  box-sizing: border-box;
+  padding: 0.25rem;
   transition: width 0.2s ease;
 }
 

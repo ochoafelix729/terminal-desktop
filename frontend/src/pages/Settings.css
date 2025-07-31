@@ -1,8 +1,16 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
 .settings-container {
   display: flex;
   height: 100vh;
+  width: 100vw;
   background-color: #1e1e1e;
   color: #fff;
+  overflow: hidden;
 }
 
 .settings-sidebar {
@@ -45,4 +53,8 @@
 .settings-section h2 {
   margin-top: 0;
   margin-bottom: 0.75rem;
+}
+
+.hidden {
+  display: none;
 }
