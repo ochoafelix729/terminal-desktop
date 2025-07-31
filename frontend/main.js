@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
+const fs = require("fs");
+const os = require("os");
 const pty = require("node-pty");
 const axios = require("axios");
 
@@ -63,6 +65,24 @@ app.whenReady().then(() => {
   // receive user input from frontend
   ipcMain.on("terminal-input", (event, input) => {
     shell.write(input);
+  });
+
+  ipcMain.handle("get-home-dir", () => {
+    return os.homedir();
+  });
+
+  ipcMain.handle("read-dir", async (event, dirPath) => {
+    try {
+      const items = await fs.promises.readdir(dirPath, { withFileTypes: true });
+      return items.map(entry => ({ name: entry.name, isDirectory: entry.isDirectory() }));
+    } catch (err) {
+      console.error("Failed to read directory", dirPath, err);
+      return [];
+    }
+  });
+
+  ipcMain.handle("join-path", (event, ...paths) => {
+    return path.join(...paths);
   });
   
   axios.post("http://127.0.0.1:8001/set_shell_type", {shell_type: shellType});
