@@ -2,6 +2,7 @@ import { React, useState, useRef, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import TerminalUI from "./TerminalUI";
+import FileNavigator from "../components/FileNavigator";
 import SmartFileGenerator from "../plugins/SmartFileGenerator";
 import TerminalTutor from "../plugins/TerminalTutor";
 import Plugin3 from "../plugins/Plugin3";
@@ -89,6 +90,7 @@ const HomeLayout = () => {
         </div>
       </div>
       <div ref={terminalPaneRef} className="terminal-pane">
+        <FileNavigator />
         <TerminalUI />
       </div>
     </div>

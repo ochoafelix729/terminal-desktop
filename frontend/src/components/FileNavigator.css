@@ -1,0 +1,38 @@
+.file-navigator {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 0.25rem;
+  overflow-y: auto;
+  max-height: 150px;
+}
+
+.navigator-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.navigator-header .current-path {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.file-item {
+  margin-right: 0.5rem;
+}
+
+.file-item button {
+  background: none;
+  border: none;
+  color: #4da3ff;
+  cursor: pointer;
+  padding: 0;
+}
