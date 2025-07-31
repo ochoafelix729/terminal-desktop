@@ -126,7 +126,7 @@ const ChatInterface = ({ setExternalMessage, showActionButtons = true }) => {
       </div>
       <div className="input-area">
         <textarea
-          className="chat-input" 
+          className="input-area textarea" 
           ref={inputRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}

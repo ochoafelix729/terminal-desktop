@@ -1,5 +1,5 @@
 /* Sidebar container that auto-adjusts its width if content overflows */
-.left-sidebar-nav {
+.left-sidebar-container {
     /* Minimum width is 60px but allow expansion based on content */
     min-width: 60px;                          /* set the minimum width */
     width: fit-content;                        /* allow width to expand based on content */
@@ -12,40 +12,40 @@
     flex-direction: column;                    /* stack items vertically */
     align-items: center;                       /* center items horizontally */
     overflow: hidden;                          /* hide any overflow */
-  }
+}
   
-  /* Reset and style the sidebar list */
-  .sidebar-icon-list {
+/* Reset and style the sidebar list */
+.sidebar-icon-list {
     list-style: none;                          /* remove default list styling */
     padding: 0;                                /* remove inner padding */
     margin: 0;                                 /* remove outer margin */
     width: 100%;                               /* let the list take full container width */
-  }
-  
-  /* Style the icon button container (list item) */
-  .icon-button {
+}
+
+/* Style the icon button container (list item) */
+.icon-button {
     width: 100%;                               /* occupy full sidebar width */
     margin-bottom: 0.75rem;                      /* space between buttons */
-  }
-  
-  /* Style the inner button element */
-  .icon-button button {
-    width: 100%;                               /* button takes full width of its container */
-    padding: 0.5rem;                           /* inner spacing for click area */
-    background-color: #444;                    /* base button background */
-    color: #fff;                               /* text color */
-    border: none;                              /* remove default border */
-    border-radius: 6px;                        /* rounded corners for modern look */
-    font-size: 0.9rem;                         /* legible font size */
-    text-align: left;                          /* align text to left for consistency */
-    cursor: pointer;                           /* pointer cursor on hover */
-    transition: background-color 0.3s ease;    /* smooth transition for hover state */
-    overflow: hidden;                          /* hide any overflowing text */
-    white-space: nowrap;                       /* prevent text from wrapping */
-    text-overflow: ellipsis;                   /* add ellipsis if text overflows */
-  }
-  
-  /* Hover state for the button */
-  .icon-button button:hover {
-    background-color: #666;                    /* slightly lighter background on hover */
-  }
+}
+
+/* Style the inner button element */
+.icon-button button {
+width: 100%;                               /* button takes full width of its container */
+padding: 0.5rem;                           /* inner spacing for click area */
+background-color: #444;                    /* base button background */
+color: #fff;                               /* text color */
+border: none;                              /* remove default border */
+border-radius: 6px;                        /* rounded corners for modern look */
+font-size: 0.9rem;                         /* legible font size */
+text-align: center;                          /* align text to left for consistency */
+cursor: pointer;                           /* pointer cursor on hover */
+transition: background-color 0.3s ease;    /* smooth transition for hover state */
+overflow: hidden;                          /* hide any overflowing text */
+white-space: nowrap;                       /* prevent text from wrapping */
+text-overflow: ellipsis;                   /* add ellipsis if text overflows */
+}
+
+/* Hover state for the button */
+.icon-button button:hover {
+background-color: #666;                    /* slightly lighter background on hover */
+}

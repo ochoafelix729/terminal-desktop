@@ -23,24 +23,6 @@ const HomeLayout = () => {
       console.error("References to copilotPanel or terminalPane are not initialized.");
       return;
     }
-  
-    const handleResize = () => {
-      const copilotWidth = copilotPanelRef.current.offsetWidth || 0;
-      terminalPaneRef.current.style.width = `calc(100vw - ${copilotWidth}px)`;
-    };
-  
-    // Initialize the width on mount
-    handleResize();
-  
-    const observer = new ResizeObserver(() => {
-      handleResize();
-    });
-  
-    observer.observe(copilotPanelRef.current);
-  
-    return () => {
-      observer.disconnect();
-    };
   }, []);
 
   const plugins = [

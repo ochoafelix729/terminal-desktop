@@ -57,12 +57,12 @@
 
 .input-area textarea {
   flex: 1 1 auto;  
-  resize: none;
   padding: 0.5rem;
   border-radius: 6px;
   border: 1px solid #444;
   background-color: #2a2a2a;
   color: white;
+  resize: none;
 }
 
 .input-area button {
@@ -126,4 +126,3 @@
   font-size: 0.9rem;
   color: #ffa500;
 }
-  

@@ -5,7 +5,7 @@ const axios = require("axios");
 
 let win;
 let shell;
-let debug = false;
+let debug = true;
 
 app.whenReady().then(() => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
