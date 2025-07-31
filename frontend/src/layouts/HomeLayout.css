@@ -10,12 +10,12 @@ html, body, #root {
   height: 100vh;
   width: 100vw;
   background-color: #ffebeb;
-  overflow: hidden;
 }
 
 .copilot-panel {
   width: 525px;
   height: 100vh;
+  flex-shrink: 0;
   background-color: #2b2b2b;
   color: white;
   display: flex;
@@ -55,12 +55,6 @@ html, body, #root {
   overflow-y: auto;
 }
 
-.terminal-pane {
-  height: 100%;
-  flex: 1;
-  padding: 0.25rem;
-  transition: width 0.2s ease;
-}
 
 .plugin-placeholder {
   margin-top: auto;

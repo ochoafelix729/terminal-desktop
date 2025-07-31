@@ -17,6 +17,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^17.2.1",
     "electron-squirrel-startup": "^1.0.1",
     "node-pty": "^1.0.0",
     "react": "^19.1.0",

@@ -7,6 +7,7 @@ import TerminalTutor from "../plugins/TerminalTutor";
 import Plugin3 from "../plugins/Plugin3";
 import Plugin4 from "../plugins/Plugin4";
 import "./HomeLayout.css";
+import "./TerminalUI.css";
 import "../plugins/PluginButtons.css";
 import LeftSideBar from "../components/LeftSideBar";
 import "../components/LeftSideBar.css";
