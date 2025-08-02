@@ -2,20 +2,6 @@
 
 This project is called Terminal Desktop. It provides an easier experience for users when working with their terminal (works on all operating systems and shell types). This is similar to how Github Desktop makes it easier to manage git version control.
 
-## Prerequisites
-
-1. Create a new directory via Finder or Terminal where you want this project stored.
-2. Clone Repository
-- In your terminal navigate to your new project directory and type: ```git clone https://github.com/ochoafelix729/terminal-copilot.git```
-3. Set up virtual environment
-- In your project directory in your terminal, type: ```python3 -m venv venv```
-- Now, activate the virtual environment by typing: ```source venv/bin/activate```
-4. Install dependencies
-- Once your virtual environment is active, type:
-    - Windows - ```pip install -r requirements.txt & cd frontend & npm install & npx electron-rebuild```
-    - MacOS - ```pip install -r requirements.txt && cd frontend && npm install && npx electron-rebuild```
-
-
 
 ## Project Architecture
 
