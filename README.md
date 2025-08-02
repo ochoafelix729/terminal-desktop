@@ -15,10 +15,6 @@ This project is called Terminal Desktop. It provides an easier experience for us
     - Windows - ```pip install -r requirements.txt & cd frontend & npm install & npx electron-rebuild```
     - MacOS - ```pip install -r requirements.txt && cd frontend && npm install && npx electron-rebuild```
 
-5. Configure environment variables
-    - Copy `.env.example` to `.env`
-    - Update values like `DATABASE_URL` or API keys if necessary
-
 
 
 ## Project Architecture
